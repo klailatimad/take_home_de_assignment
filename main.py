@@ -23,6 +23,7 @@ def extract_commits(): # Extract commits from GitHub API with pagination
             "X-GitHub-Api-Version": "2022-11-28",
         }
 
+
         response = requests.get(BASE_URL, params=params, headers=headers, timeout=30) # Make the API request with a timeout
         response.raise_for_status()
 
@@ -121,8 +122,16 @@ def main(): # Main ETL process
     create_table(connection) # Ensure the commits table exists before loading data
 
     raw_commits = extract_commits() # Extract commits from GitHub API
-    transformed_commits = transform_commits(raw_commits) # Transform the raw commit data into a structured format
-    load_commits(connection, transformed_commits) # Load the transformed commits into the database
+    # sample 1 row from raw_commits for debugging
+    if raw_commits:
+        print("Sample raw commit data:")
+        print(raw_commits[0])
+        transformed_commits = transform_commits(raw_commits) # Transform the raw commit data into a structured format
+    # Sample 1 row from transformed_commits for debugging
+    if transformed_commits:
+        print("\nSample transformed commit data:")
+        print(transformed_commits[0])
+        load_commits(connection, transformed_commits) # Load the transformed commits into the database
 
     connection.close()
     print("ETL complete.")

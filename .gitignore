@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Ignore remaining files
+commits.db
+query.py
+sql_exc.sql
